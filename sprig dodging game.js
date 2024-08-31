@@ -49,12 +49,15 @@ setMap(map`
 var gameRunning = true;
 
 onInput("a", () => {
-  getFirst(player).x -= 1;
+  if (gameRunning) {
+    getFirst(player).x -= 1;
+  }
 });
 onInput("d", () => {
-  getFirst(player).x += 1;
+  if (gameRunning) {
+    getFirst(player).x += 1;
+  }
 });
-
 function spawnObstacle() {
   let x = Math.floor(Math.random() * 8);
   let y = 0;
@@ -94,8 +97,14 @@ var gameLoop = setInterval(() => {
   moveObstacles();
   spawnObstacle();
  
-  if (checkHit()) {
+   if (checkHit()) {
     clearInterval(gameLoop);
+    gameRunning = false;
+    addText("Game Over!", {
+      x: 5,
+      y: 6,
+      color: color`3`
+    });
   }
  
 }, 1000);
