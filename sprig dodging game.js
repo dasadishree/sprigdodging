@@ -46,6 +46,7 @@ setMap(map`
 ........
 ........
 ...p....`);
+var gameRunning = true;
 
 onInput("a", () => {
   getFirst(player).x -= 1;
@@ -66,6 +67,35 @@ function moveObstacles() {
     obstacles[i].y += 1;
   }
 }
-spawnObstacle();
-moveObstacles();
-moveObstacles();
+function despawnObstacles() {
+  let obstacles = getAll(obstacle);
+ 
+  for (let i = 0; i < obstacles.length; i++) {
+    if (obstacles[i].y == 7) {
+      obstacles[i].remove();
+    }
+  }
+}
+function checkHit() {
+  let obstacles = getAll(obstacle);
+  let p = getFirst(player);
+ 
+  for (let i = 0; i < obstacles.length; i++) {
+    if (obstacles[i].x == p.x && obstacles[i].y == p.y) {
+      return true;
+    }
+  }
+ 
+  return false;
+}
+
+var gameLoop = setInterval(() => {
+  despawnObstacles();
+  moveObstacles();
+  spawnObstacle();
+ 
+  if (checkHit()) {
+    clearInterval(gameLoop);
+  }
+ 
+}, 1000);
