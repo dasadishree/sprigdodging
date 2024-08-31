@@ -36,5 +36,36 @@ setLegend(
 ...0333033330...
 ...0333033330...
 ...0000000000...`]
-   
 );
+setMap(map`
+........
+........
+........
+........
+........
+........
+........
+...p....`);
+
+onInput("a", () => {
+  getFirst(player).x -= 1;
+});
+onInput("d", () => {
+  getFirst(player).x += 1;
+});
+
+function spawnObstacle() {
+  let x = Math.floor(Math.random() * 8);
+  let y = 0;
+  addSprite(x, y, obstacle);
+}
+function moveObstacles() {
+  let obstacles = getAll(obstacle);
+ 
+  for (let i = 0; i < obstacles.length; i++) {
+    obstacles[i].y += 1;
+  }
+}
+spawnObstacle();
+moveObstacles();
+moveObstacles();
